@@ -34,10 +34,20 @@ class MoneyAgent(Agent):
             other.wealth += 1
             self.wealth -= 1
 
+    def give_more_money(self):
+        cellmates = self.model.grid.get_cell_list_contents([self.pos])
+        if len(cellmates) > 1:
+            other = self.random.choice(cellmates)
+            other.wealth += 2
+            self.wealth -= 2
+
+
     def step(self):
         self.move()
         if self.wealth > 0:
             self.give_money()
+        elif self.wealth > 5:
+            self.give_more_money()
 
 class MoneyModel(Model):
     """A model with some number of agents."""
